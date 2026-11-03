@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+<script type="module">
+  import { createSDK } from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
+  const sdk = createSDK();
+  window.__onestoreSdk = sdk;
+  sdk.on("pause", () => document.dispatchEvent(new Event("onestore:pause")));
+  sdk.on("resume", () => document.dispatchEvent(new Event("onestore:resume")));
+  sdk.on("exit", () => {});
+  sdk.initializeAsync().then((info) => {
+    if (info && info.err) return; // 일반 브라우저: 그냥 웹으로 동작
+    const sa = info.safeArea || {};
+    const r = document.documentElement.style;
+    r.setProperty("--os-safe-top", (sa.top || 0) + "px");
+    r.setProperty("--os-safe-bottom", (sa.bottom || 0) + "px");
+    sdk.setLoadingProgress(100);
+    return sdk.startGameAsync();
+  }).catch((e) => console.warn("ONEStore SDK init 실패", e && e.reason, e && e.message));
+</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>오늘 밥 살 사람?</title>
+    <meta name="description" content="친구들과 구구단 게임으로 점심 메뉴와 벌칙을 정해요" />
+    <script type="module" crossorigin src="./assets/index-DNMeZIEd.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-ByLEWTId.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
